@@ -12,20 +12,12 @@ const sendEmail = require("../utils/sendEmail");
 require("dotenv").config();
 const registerUser = wrapAsync(async (req, res) => {
   try {
-    const { username, email,phone, password,confirmPassword } = req.body;
+    const { username, email,phone, password,confirmPassword ,termsAccepted} = req.body;
 
     const userExist = await User.findOne({ email });
     if (userExist) {
       return res.status(400).json({ message: "User already exists" });
     }
-
-    // let profileImage;
-    // if (req.file) {
-    //   if (!req.file.mimetype.startsWith("image")) {
-    //     return res.status(400).json({ message: "Only images are allowed" });
-    //   }
-    //   profileImage = await clouduploadImage(req.file.path);
-    // }
 
     const hash_password = await bcrypt.hash(password, 10);
 
@@ -35,6 +27,7 @@ const registerUser = wrapAsync(async (req, res) => {
       phone,
       password: hash_password,
       confirmPassword: hash_password,
+      termsAccepted
     });
 
     const token = generatejwt(userCreated._id);
@@ -53,7 +46,7 @@ const registerUser = wrapAsync(async (req, res) => {
         username: userCreated.username,
         email: userCreated.email,
         phone: userCreated.phone,
-        // profileImage: userCreated.profileImage || null,
+         termsAccepted:userCreated.termsAccepted
       },
       token,
     });

@@ -12,16 +12,18 @@ import axios from "axios"
 
 export default function SignupPage() {
   const {storeTokenInLs} = useContext(AuthContext);
+    const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     phone: "",
     password: "",
     confirmPassword: "",
+    termsAccepted:agreedToTerms
     
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [agreedToTerms, setAgreedToTerms] = useState(false)
+
 
   const handleChange = (e: any) => {
     const { name, value } = e.target
@@ -64,6 +66,7 @@ const handleSignup = async (e: any) => {
       phone: "",
       password: "",
       confirmPassword: "",
+      termsAccepted:""
     });
     setIsLoading(true);
   } catch (error: any) {

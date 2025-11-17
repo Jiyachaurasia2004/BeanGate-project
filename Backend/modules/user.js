@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema({
         type: String,       
         required: true
     },
+     termsAccepted: {   
+        type: Boolean,
+        required: true,
+        default: false
+    },
     isadmin: {
         type: Boolean,
         default: false
